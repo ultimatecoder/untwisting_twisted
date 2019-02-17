@@ -1,4 +1,25 @@
 \documentclass{article}
+\usepackage{url}
 \begin{document}
-  Hello world
+  \section{Reactor}
+  Reactor is the core of the event loop. It is responsible for waiting for the
+  event and notify the program when the event is occurred. Reactor is dependent
+  on platform specific libraries. Twisted will automatically choose default
+  platform specific library.
+
+  For under the hood details, In GNU/Linux platform it tries to fetch for epoll
+  \cite{epoll}.  If epoll \cite{epoll} is not available, it will use poll
+  \cite{poll}. All the POSIX compliant platforms it will use poll. All other
+  platforms such as Windows and Macintosh it will use select reactor.
+
+  You have to register your callbacks to the reactor and have to start it. Once
+  the reactor is start, it will listen to the events and notifies to the
+  program forever or until \texttt{reactor.stop} is called.
+
+  \begin{thebibliography}{2}
+    \bibitem{epoll}
+      \url{http://man7.org/linux/man-pages/man7/epoll.7.html}% chktex 8
+    \bibitem{poll}
+      \url{http://man7.org/linux/man-pages/man2/poll.2.html}% chktex 8
+  \end{thebibliography}
 \end{document}
