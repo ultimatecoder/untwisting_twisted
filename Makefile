@@ -1,9 +1,12 @@
 install:
 	npm install --dev
 	gem install mdl
+	./scripts/install_latex_linter
 
-build: slides.md
-	./node_modules/.bin/markdown-to-slides slides.md -o slides.html
+build:
+	./node_modules/.bin/markdown-to-slides ./source/slides.md -o output/slides.html
+	pdflatex -output-directory=output ./source/notes.tex
 
-lint: slides.md README.md
-	mdl slides.md README.md
+lint:
+	mdl ./source/slides.md README.md
+	./chktex/chktex ./source/notes.tex

@@ -21,25 +21,27 @@ are prepared using [Markdown][markdown] format.
 
 * [RubyGem][rubygem]
 
+* [LaTeX][latex]
+
 ## Development 👨‍💻
 
 **Note**: Make sure requirements are already installed before running below commands.
 
 ```make install```
 
-  This command will install dependent packages. This command will not install
-  runtime [Ruby][rubygem] and [Node][nodejs].
+  This command will install all dependent packages. This command will not
+  install runtime [Ruby][rubygem] and [Node][nodejs].
 
 ```make build```
 
-  Make the build of the slides. It will generate the file `slides.html` as the
-  output.
+  Make the build of the slides and notes. It will generate the file
+  `slides.html` and `notes.pdf` at the `output` directory.
 
 ## Lint 🔨
 
 ```make lint```
 
-  Lint the markdown files.
+  This command will lint the markdown files and TeX files.
 
 ## License 📃
 
@@ -53,3 +55,4 @@ are prepared using [Markdown][markdown] format.
 [ruby]: https://www.ruby-lang.org/en/
 [rubygem]: https://rubygems.org/
 [gpl_v3]: https://www.gnu.org/licenses/gpl-3.0.txt
+[latex]: https://www.latex-project.org/
