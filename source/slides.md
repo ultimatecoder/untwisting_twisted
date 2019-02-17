@@ -5,35 +5,29 @@
 
   .center[![Speaker Image](images/jaysinh_shukla.jpg)]
 
-  * ⚒️ Software Engineer
+* ⚒️ Software Engineer
 
-  * 🌏 http://blog.jaysinh.com
+* 🌏 <http://blog.jaysinh.com>
 
-  * 💻 http://github.com/ultimatecoder
+* 💻 <http://github.com/ultimatecoder>
 
-  * 🐦 [@jaysinhp](https://twitter.com/jaysinhp)
+* 🐦 [@jaysinhp](https://twitter.com/jaysinhp)
 
-  * 📧 [jaysinhp@gmail.com](mailto:jaysinhp@gmail.com)
+* 📧 [jaysinhp@gmail.com](mailto:jaysinhp@gmail.com)
 
 ---
 ## Seeking help 🙋
 
-### Mailing lists
-
-* **twisted-python:** https://twistedmatrix.com/cgi-bin/mailman/listinfo/twisted-python
-* **twisted-web:** https://twistedmatrix.com/cgi-bin/mailman/listinfo/twisted-web
-
-### Forum
-* **Stackoverflow:** http://stackoverflow.com/questions/tagged/twisted
-
-### IRC
-
-* **#twisted:** irc://irc.freenode.net/twisted
-* **#twisted.web:** irc://irc.freenode.net/twisted.web
-
-### Blog
-
-* **Twisted Planet:** http://planet.twistedmatrix.com/
+* Mailing lists
+  * **twisted-python:** <https://twistedmatrix.com/cgi-bin/mailman/listinfo/twisted-python>
+  * **twisted-web:** <https://twistedmatrix.com/cgi-bin/mailman/listinfo/twisted-web>
+* Forum
+  * **Stackoverflow:** <http://stackoverflow.com/questions/tagged/twisted>
+* IRC
+  * **#twisted:** <irc://irc.freenode.net/twisted>
+  * **#twisted.web:** <irc://irc.freenode.net/twisted.web>
+* Blog
+  * **Twisted Planet:** <http://planet.twistedmatrix.com/>
 
 ---
 ## Thanks 🙏
