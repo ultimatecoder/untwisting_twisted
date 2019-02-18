@@ -1,7 +1,7 @@
 install:
 	npm install --dev
 	gem install mdl
-	./scripts/install_latex_linter
+	sh scripts/intall_latex_linter.sh
 
 build:
 	cp -R ./source/images ./output/images
