@@ -1,0 +1,22 @@
+{
+  "name": "untwisting_twisted_slides",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ultimatecoder/untwisting_twisted_slides.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ultimatecoder/untwisting_twisted_slides/issues"
+  },
+  "homepage": "https://github.com/ultimatecoder/untwisting_twisted_slides#readme",
+  "dependencies": {
+    "markdown-to-slides": "^1.0.5"
+  }
+}
