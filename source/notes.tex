@@ -1,20 +1,78 @@
 \documentclass{article}
 \usepackage{url}
 \begin{document}
+
   \section{Reactor}
-  Reactor is the core of the event loop. It is responsible for waiting for the
-  event and notify the program when the event is occurred. Reactor is dependent
-  on platform specific libraries. Twisted will automatically choose default
-  platform specific library.
+    Reactor is the core of the event loop. It is responsible for waiting for
+    the event and notify the program when the event is occurred. Reactor is
+    dependent on platform specific libraries. Twisted will automatically choose
+    default platform specific library.
 
-  For under the hood details, In GNU/Linux platform it tries to fetch for epoll
-  \cite{epoll}.  If epoll \cite{epoll} is not available, it will use poll
-  \cite{poll}. All the POSIX compliant platforms it will use poll. All other
-  platforms such as Windows and Macintosh it will use select reactor.
+    For under the hood details, In GNU/Linux platform it tries to fetch for
+    epoll \cite{epoll}.  If epoll \cite{epoll} is not available, it will use
+    poll \cite{poll}. All the POSIX compliant platforms it will use poll. All
+    other platforms such as Windows and Macintosh it will use select reactor.
 
-  You have to register your callbacks to the reactor and have to start it. Once
-  the reactor is start, it will listen to the events and notifies to the
-  program forever or until \texttt{reactor.stop} is called.
+    You have to register your callbacks to the reactor and have to start it.
+    Once the reactor is start, it will listen to the events and notifies to the
+    program forever or until \texttt{reactor.stop} is called.
+
+    \begin{verbatim}
+      // Example reactor_server.py
+      from twisted.internet import reactor
+
+      reactor.listenTCP(8000, MyFactory())
+      reactor.run()
+    \end{verbatim}
+
+  \selection{Transport}
+
+    Transport is responsible to provide the behaviour for transferring data to
+    the other end of the connection. The transport behaves differently
+    according to the connection for example, TCP or UDP will have different
+    implementation of transport. All the transport implementations should be
+    dependent on \texttt{ITransport} interface.
+
+    Common methods are
+
+    \subsection{write} Should write data to the connection.
+
+    \subsection {writeSequence} Should write list of strings to the connection.
+
+    \subsection{loseConnection} Should close the connection after writing
+    ending data.
+
+    \subsection{getPeer} Should return remote address of the connection.
+
+  \section{Protocol}
+    Protocol will define the behaviour to process the network events in async
+    manner. Twisted does have in-built definition for many protocols such as
+    HTTP, Telnet, DNS etc. All the protocol classes should implement
+    \texttt{IProtocol} interface. Base class is \texttt{protocol.Protocol}.
+
+    Common methods are
+
+    \subsection{makeConnection} Should create a connection.
+
+    \subsection{connectionMade} Should be called when a new connection is made.
+
+    \subsection{dataReceived} Should be called when any data is received from
+    the other end of the circuit.
+
+    \subsection{connectionLost} Should be called when the connection is
+    terminated.
+
+  \section{Protocol Factory}
+    The factory will produce the instance of \texttt{Protocol} when the new
+    connection is made. \texttt{Protocol} will be garbage collected when the
+    collection is called. The Factory will store configuration details for
+    \texttt{Protocol} instances. The factory is following
+    \texttt{IProtocolFactory} interface. There client implementation of common
+    factory methods is \texttt{ClientFactory}.
+
+    Methods
+
+    \subsection{buildProtocol} should create the instance of Protocol class.
 
   \begin{thebibliography}{2}
     \bibitem{epoll}

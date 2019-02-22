@@ -16,6 +16,15 @@
 * 📧 [jaysinhp@gmail.com](mailto:jaysinhp@gmail.com)
 
 ---
+## Reactor
+
+* Reactor is responsible for listening for the event. And notify to the source
+  when the event has occurred.
+* It hides platform dependent details from the user and provides common API.
+* GNU/Linux = epoll or poll
+* Other = select-reactor
+
+---
 ## Seeking help 🙋
 
 * Mailing lists
