@@ -36,16 +36,18 @@
                 self.wfile.write(response.encode('utf-8'))
                 return
 
-        with server.HTTPServer(
-          ('localhost', 8000), RequestHandler
-        ) as http_server:
-            http_server.serve_forever()
+
+        if __name__ == "__main__":
+            with server.HTTPServer(
+                ('localhost', 8000), RequestHandler
+            ) as http_server:
+                http_server.serve_forever()
       \end{verbatim}
 
     \subsection{Multi-Threaded}
       Converting above program to a multithreaded version will help. A
       multithreaded program will handle each HTTP request in a new thread and
-      thus it can handle mutiple requests at the same time.
+      thus it can handle multiple requests at the same time.
 
       \begin{verbatim}
         import time
@@ -57,87 +59,91 @@
         class RequestHandler(server.SimpleHTTPRequestHandler):
 
             def do_GET(self):
-                time.sleep(40)
+                start_time = time.time()
+                time.sleep(5)
                 end_time = time.time()
                 self.send_response(200, "OK")
                 self.end_headers()
-                response = "Ended at {}".format(end_time)
+                response = (
+                    "Started at {}, Ended at {} difference {}".format(
+                        start_time, end_time, end_time - start_time
+                    )
+                )
                 self.wfile.write(response.encode('utf-8'))
                 return
 
-
-        class ThreadedHTTPServer(ThreadingMixIn, server.HTTPServer):
-            daemon_threads = True
-
-
-        with ThreadedHTTPServer(
-            ('localhost', 8000), RequestHandler
+        with server.HTTPServer(
+          ('localhost', 8000), RequestHandler
         ) as http_server:
             http_server.serve_forever()
       \end{verbatim}
 
-      Compared to the single threaded approach, the program with multithreaded
-      will be able to achieve more performance because the server will spawn a
-      new thread for each new request. And thus, when the thread is blocking,
-      it can handle another request during that time.
+      Compared to the single threaded approach, a program using  multithreaded
+      approach will be able to achieve more performance because a multithreaded
+      server will spawn a new thread for each new request. And thus, when the
+      thread is blocking, it can handle another request during that time.
 
-      But here is a problem. When bunch of new requests are coming (usually
-      higher than the core of processor), Blocking thread is actually blocking
-      the CPU core.
+      But using this approach will bring another problem. When bunch of new
+      requests are coming (usually higher than cores of a processor), then
+      blocking thread is actually blocking a CPU core on which it is executing.
 
-      Compare the threaded example using Apache Benchmark tool.
+      In below section I am comparing a multi-threaded example using Apache
+      Benchmark tool.
 
       \begin{verbatim}
         ab -n 100 -c 100 -s 120 http://localhost:8000
       \end{verbatim}
 
-      In the above, command \textbf{-n} is a short-hand for Number of requests
-      to be fired. \textbf{-c} is a concurrent requests the tool will fire at
-      the same time. \textbf{-s} is a short hand for total number of seconds
-      after which the tool will timeout a request.
+      Some times Apache Benchmark will require the internet connection even if
+      we are testing local services.
 
-      The threaded server, a maximum number of concurrent requests handled by
-      the server will be somewhere between (total number of cores * 1.5 ) + 1.
-      The server can't handle other concurrent requests at the same time. The
-      server will process those requests in batches.
+      Explaining above command by its arguments, \textbf{-n} is a short-hand
+      for number of requests to be fired. \textbf{-c} is a concurrent requests
+      the tool will fire at the same time. \textbf{-s} is a short hand for
+      total number of seconds after which the tool will timeout a request.
+
+      Any threaded server can handle (total number of cores * 1.5 ) + 1 number
+      of requests at one time. The server can't handle more concurrent requests
+      at a same time. The server will process those requests in batches.
 
     \subsection{Event-driven}
-      Now, if we convert above example into event-driven asynchronous code
+      Now, if we convert above example into an event-driven asynchronous code
       then it will look as below.
 
       \begin{verbatim}
         import time
 
-        from twisted.internet import reactor
-        from twisted.internet.task import deferLater
-        from twisted.web.resource import Resource
-        from twisted.web.server import Site, NOT_DONE_YET
+        from twistedinternet import reactor
+        from twistedinternet.task import deferLater
+        from twistedweb.resource import Resource
+        from twistedweb.server import Site, NOT_DONE_YET
 
 
-        class BusyPage(Resource):
-            isLeaf = True
+        class BusyPae(Resource):
+            isLeaf =True
 
-            def _delayedResponse(self, request):
-                end_time = time.time()
-                response = "Ended at {}".format(end_time)
-                request.write(response.encode("utf-8"))
-                request.finish()
+            def _delyedResponse(self, request):
+                end_ime = time.time()
+                respnse = "Ended at {}".format(end_time)
+                requst.write(response.encode("utf-8"))
+                requst.finish()
 
-            def render_GET(self, request):
-                d = deferLater(reactor, 40, lambda: request)
-                d.addCallback(self._delayedResponse)
-                return NOT_DONE_YET
+            def rendr_GET(self, request):
+                d = eferLater(reactor, 40, lambda: request)
+                d.adCallback(self._delayedResponse)
+                retun NOT_DONE_YET
 
 
-        factory = Site(BusyPage())
-        reactor.listenTCP(8000, factory)
+        factory = Sie(BusyPage())
+        reactor.listnTCP(8000, factory)
         reactor.run()
       \end{verbatim}
 
-    Compare the performance of the above code by Apache benchmarking tool.
+    Now let's measure the performance of this code with the Apache benchmarking
+    tool and then compare it with all of our previous results.
 
-    Below is the same command we had used earlier to compare the multi-threaded
-    approach.
+    Below is the same command which we had used earlier to compare the
+    multi-threaded approach.
 
     \begin{verbatim}
       ab -n 100 -c 100 -s 120 http://localhost:8000
@@ -189,7 +195,6 @@
 
     \subsection{Echo Server}
       \begin{verbatim}
-        \\Example echo_server.py
         from twisted.internet import protocol, reactor
 
 
@@ -206,22 +211,22 @@
                 return EchoServer()
 
 
-        reactor.listenTCP(8000, EchoFactory())
-        reactor.run()
+        if __name__ == "__main__":
+            reactor.listenTCP(8000, EchoFactory())
+            reactor.run()
       \end{verbatim}
 
       \subsection{Echo client}
 
       \begin{verbatim}
-        \\ Example echo_client.py
         from twisted.internet import reactor, protocol
 
 
         class EchoClient(protocol.Protocol):
 
             def connectionMade(self):
-                request = "Hello, world!"
-                self.transport.write(request.encode("utf-8"))
+                response = "Hello world!"
+                self.transport.write(response.encode("utf-8"))
 
             def dataReceived(self, data):
                 print(data)
@@ -242,8 +247,9 @@
                 reactor.stop()
 
 
-        reactor.connectTCP("localhost", 8000, EchoFactory())
-        reactor.run()
+        if __name__ == "__main__":
+            reactor.connectTCP("localhost", 8000, EchoFactory())
+            reactor.run()
       \end{verbatim}
 
   \section{Reactor}
@@ -377,45 +383,44 @@
     your mind. For that reason, we will conver another example.
 
     \begin{verbatim}
-      \\chat_server.py
-      from twisted.internet.protocol import Factory
-      from twisted.protocols.basic import LineReceiver
-      from twisted.internet import reactor
+    from twisted.internet.protocol import Factory
+    from twisted.protocols.basic import LineReceiver
+    from twisted.internet import reactor
 
 
-      class ChatProtocol(LineReceiver):
+    class ChatProtocol(LineReceiver):
 
-          def __init__(self, factory):
-              self.factory = factory
+        def __init__(self, factory):
+            self.factory = factory
 
-          def connectionMade(self):
-              self.factory.users.append(self)
+        def connectionMade(self):
+            self.factory.users.append(self)
 
-          def lineReceived(self, line):
-              for user in self.factory.users:
-                  if user != self:
-                      user.transport.write(line+b"\r\n")
-
-
-      class ChatFactory(Factory):
-
-          def __init__(self):
-              self.users = []
-
-          def buildProtocol(self, addr):
-              return ChatProtocol(self)
+        def lineReceived(self, line):
+            for user in self.factory.users:
+                if user != self:
+                    user.transport.write(line + b"\r\n")
 
 
-      reactor.listenTCP(8000, ChatFactory())
-      reactor.run()
+    class ChatFactory(Factory):
 
+        def __init__(self):
+            self.users = []
+
+        def buildProtocol(self, addr):
+            return ChatProtocol(self)
+
+
+    if __name__ == "__main__":
+        reactor.listenTCP(6000, ChatFactory())
+        reactor.run()
     \end{verbatim}
 
     Connect with chat server using multiple connections made by \texttt{telnet}
     program. This will allow to communicate multiple clients as in chatting in
     group. In that code, concurrent client instances are stored at Protocol
     Factory. Whenever you have to store persistent information beyond the
-    lifecycle of your socket, you should store that in the Protocol Factory.
+    life cycle of your socket, you should store that in the Protocol Factory.
     Protocol will be created and garbage collected with connection.
 
   \section{Deferreds}
@@ -515,23 +520,23 @@
 
     \subsection{Testing echo server}
       \begin{verbatim}
-        from twisted.test import proto_helpers
-        from twisted.trial import unittest
+      from twisted.test import proto_helpers
+      from twisted.trial import unittest
 
-        from echo_server import EchoFactory
+      from echo.server import EchoFactory
 
 
-        class TestEchoServer(unittest.TestCase):
+      class TestEchoServer(unittest.TestCase):
 
-            def test_response(self):
-                factory = EchoFactory()
-                protocol = factory.buildProtocol(("localhost", 0))
-                transport = proto_helpers.StringTransport()
+          def test_response(self):
+              factory = EchoFactory()
+              protocol = factory.buildProtocol(("localhost", 0))
+              transport = proto_helpers.StringTransport()
 
-                protocol.makeConnection(transport)
-                data = b"test\r\n"
-                protocol.dataReceived(data)
-                self.assertEqual(transport.value(), data)
+              protocol.makeConnection(transport)
+              data = b"test\r\n"
+              protocol.dataReceived(data)
+              self.assertEqual(transport.value(), data)
     \end{verbatim}
 
     Things to observe is \texttt{trial.unittest.TestCase}. This is the special
@@ -539,7 +544,7 @@
 
     Run below command to run the test
     \begin{verbatim}
-      PYTHONPATH=${PWD} trial test_server
+      PYTHONPATH=${PWD} trial tests
     \end{verbatim}
 
   \section{Deployments}
@@ -576,15 +581,19 @@
 
       \subsubsection{tac file}
         \begin{verbatim}
-          \\ echo_server.tac
+          #!/bin/python3
+
+
           import os
           import sys
 
+          # Note: Below import should be always before importing Twisted library
           sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
           from twisted.application import internet, service
 
-          from echo_app import EchoFactory
+          from server import EchoFactory
+
 
           application = service.Application("echo")
           echoService = internet.TCPServer(8000, EchoFactory())
