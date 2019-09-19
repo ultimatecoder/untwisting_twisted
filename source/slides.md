@@ -1,11 +1,11 @@
-# Untwisting Twisted
+# Untwisting Twisted (Pycon Taiwan 2019 🇹🇼)
 
 ---
 ## Speaker 👨
 
   .center[![Speaker Image](images/jaysinh_shukla.jpg)]
 
-* ⚒️ Software Engineer
+* ⚒️ Software Engineer (Consultant)
 
 * 🌏 <http://blog.jaysinh.com>
 
@@ -14,6 +14,30 @@
 * 🐦 [@jaysinhp](https://twitter.com/jaysinhp)
 
 * 📧 [jaysinhp@gmail.com](mailto:jaysinhp@gmail.com)
+
+
+---
+## History of Twisted 📜
+
+
+![Image of Glyph Lefkowitz][glyph_lefkowitz]
+
+
+---
+## Twisted is a big bag! 🛍️
+
+* Sockets: TCP, UDP, SSL/TCL layers etc
+
+* Protocols: HTTP, XMPP, IMAP, SSH, FTP, SMTP etc
+
+* Current major version: 19.x
+
+
+---
+### Code example repository
+
+https://github.com/ultimatecoder/untwisting-twisted-workshop-code-examples
+
 
 ---
 ## Seeking help 🙋
@@ -42,3 +66,4 @@
 [calvin_img]: images/calvin_spealman.jpg
 [book_link]: http://shop.oreilly.com/product/0636920025016.do
 [book_img]: images/twisted_book.jpg
+[glyph_lefkowitz]: images/glyph_lefkowitz.jpg
