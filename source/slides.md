@@ -17,14 +17,36 @@
 
 
 ---
-## History of Twisted 📜
+## Single Thread vs Multi threads vs Async
 
-
-![Image of Glyph Lefkowitz][glyph_lefkowitz]
+![Image of single thread and multi thread comparision][threading_comparision]
 
 
 ---
-## Twisted is a big bag! 🛍️
+## History of Twisted 📜
+
+
+* Started by
+
+  .center[![Image of Glyph Lefkowitz][glyph_lefkowitz]]
+  .center[Glyph Lefkowitz]
+
+* In the year 2002, almost 17 years before!
+
+
+---
+## Applications using Twisted
+
+* Buildbot
+* Omegle
+* Twillio
+* Twitch.tv
+* Scrapy framework
+* And many more!
+
+
+---
+## Twisted 🛍️
 
 * Sockets: TCP, UDP, SSL/TCL layers etc
 
@@ -53,6 +75,7 @@ https://github.com/ultimatecoder/untwisting-twisted-workshop-code-examples
 * Blog
   * **Twisted Planet:** <http://planet.twistedmatrix.com/>
 
+
 ---
 ## Thanks 🙏
 
@@ -67,3 +90,4 @@ https://github.com/ultimatecoder/untwisting-twisted-workshop-code-examples
 [book_link]: http://shop.oreilly.com/product/0636920025016.do
 [book_img]: images/twisted_book.jpg
 [glyph_lefkowitz]: images/glyph_lefkowitz.jpg
+[threading_comparision]: images/event_driven_comparision.png
